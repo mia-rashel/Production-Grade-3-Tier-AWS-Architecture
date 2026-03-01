@@ -1,0 +1,12 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# Variables
+terraform.tfvars
+*.tfvars
+
+# Sensitive
+*.pem

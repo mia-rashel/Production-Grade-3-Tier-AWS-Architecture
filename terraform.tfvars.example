@@ -1,0 +1,6 @@
+vpc_cidr      = "10.0.0.0/16"
+my_ip         = "YOUR_PUBLIC_IP/32"
+
+db_username   = "admin"
+db_password   = "ChangeMe123!"
+alert_email   = "your-email@example.com"
