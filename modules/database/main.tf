@@ -21,4 +21,19 @@ resource "aws_db_instance" "db" {
   skip_final_snapshot     = true
 
   backup_retention_period = 7
+  multi_az = true
+}
+resource "aws_db_instance" "replica" {
+  identifier              = "app-db-replica"
+
+  replicate_source_db     = aws_db_instance.db.identifier
+
+  instance_class          = "db.t3.micro"
+
+  publicly_accessible     = false
+  storage_encrypted       = true
+
+  vpc_security_group_ids  = [var.db_sg]
+
+  depends_on = [aws_db_instance.db]
 }
