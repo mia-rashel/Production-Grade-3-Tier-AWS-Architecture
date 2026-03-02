@@ -22,6 +22,7 @@ It demonstrates:
 - RDS MySQL in isolated DB subnets
 - CloudWatch monitoring and scaling policies
 - Security group chaining between tiers
+- State locking
 
 This architecture reflects real-world cloud engineering best practices.
 
@@ -188,6 +189,15 @@ This project demonstrates:
 - Observability integration
 
 - Encrypted database storage
+## 🗄 Terraform Remote State Management
+
+This project uses a production-ready Terraform backend configuration:
+
+- Remote state stored in **Amazon S3**
+- State locking implemented using **DynamoDB**
+- Server-side encryption enabled
+- Centralized state for collaborative deployments
+
 
 ### 🔮 Possible Enhancements
 
@@ -200,8 +210,6 @@ This project demonstrates:
 - WAF integration
 
 - CI/CD pipeline (GitHub Actions)
-
-- Remote state (S3 + DynamoDB locking)
 
 - Secrets Manager integration
 
