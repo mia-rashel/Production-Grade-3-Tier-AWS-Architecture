@@ -17,12 +17,12 @@ It demonstrates:
 
 - Infrastructure as Code (IaC)
 - Secure network segmentation
-- Application Load Balancing
-- Auto Scaling
-- RDS MySQL in isolated DB subnets
-- CloudWatch monitoring and scaling policies
+- Multi-AZ high availability
+- Auto Scaling compute layer
+- Enterprise-grade RDS deployment
+- Remote state management (S3 + DynamoDB)
+- CloudWatch monitoring & alerting
 - Security group chaining between tiers
-- State locking
 
 This architecture reflects real-world cloud engineering best practices.
 
@@ -50,7 +50,8 @@ This architecture reflects real-world cloud engineering best practices.
                           │
                           ▼
             ┌──────────────────────────┐
-            │        RDS MySQL         │
+            │  RDS MySQL(Multi-AZ      |
+            │     + Read Replica       |
             │   (Private DB Subnets)   │
             └──────────────────────────┘
 
@@ -65,7 +66,31 @@ This architecture reflects real-world cloud engineering best practices.
 | RDS   | Private DB | No internet access | Data layer |
 
 ---
+## Enterprise Database Architecture
+### High Availability (Multi-AZ)
 
+The primary RDS instance is deployed in Multi-AZ mode, providing:
+
+ - Synchronous standby replica
+ - Automatic failover during AZ failure
+ - Same database endpoint after failover
+ - Minimal downtime
+
+If one Availability Zone fails, AWS automatically promotes the standby instance.
+### Read Scaling (Read Replica)
+A dedicated Read Replica is deployed to:
+
+- Offload read-heavy workloads
+- Improve scalability
+- Support horizontal database scaling
+
+Characteristics:
+- Asynchronous replication
+- Separate endpoint
+- Can be manually promoted if needed
+
+Multi-AZ ensures availability.
+Read Replica ensures scalability.
 ## 🔐 Security Design
 
 This architecture implements strict tier isolation:
@@ -82,17 +107,19 @@ This ensures layered defense and minimized attack surface.
 ---
 
 ## ⚙️ Features Implemented
-
-- VPC with public, private app, and private DB subnets  
-- Internet Gateway + NAT Gateway  
-- Application Load Balancer  
-- Auto Scaling Group (CPU target tracking at 50%)  
-- RDS MySQL (encrypted, backup enabled)  
-- Dedicated DB Subnet Group  
-- Security Group chaining (ALB → EC2 → RDS)  
-- CloudWatch monitoring  
-- SNS email alerts  
-- Modular Terraform design  
+- VPC with public, private app, and private DB subnets
+- Internet Gateway + NAT Gateway
+- Multi-AZ Application Load Balancer
+- Multi-AZ Auto Scaling Group
+- CPU Target Tracking (50%)
+- RDS MySQL (Multi-AZ enabled)
+- Dedicated Read Replica
+- Dedicated DB Subnet Group
+- Security Group chaining (ALB → EC2 → RDS)
+- CloudWatch monitoring
+- SNS email alerts
+- Modular Terraform structure
+- Remote state management (S3 + DynamoDB locking)
 
 ---
 
@@ -117,6 +144,15 @@ multi-tier-aws/
 └── README.md
 ```
 ---
+
+## 🗄 Terraform Remote State Management
+
+This project uses a production-ready Terraform backend configuration:
+
+- Remote state stored in **Amazon S3**
+- State locking implemented using **DynamoDB**
+- Server-side encryption enabled
+- Centralized state for collaborative deployments
 
 ## 🚀 Deployment Instructions
 
@@ -167,9 +203,7 @@ Paste the DNS name into your browser.
 ### Monitoring:
 
 - CloudWatch metrics
-
 - RDS connection tracking
-
 - SNS email alerts
 
 ### 🏆 Production-Grade Characteristics
@@ -177,40 +211,20 @@ Paste the DNS name into your browser.
 This project demonstrates:
 
 - Logical + network-level tier isolation
-
 - Infrastructure as Code (modular design)
-
 - No hardcoded credentials
-
 - Secure subnet segmentation
-
 - Automated scaling
-
 - Observability integration
-
 - Encrypted database storage
-## 🗄 Terraform Remote State Management
-
-This project uses a production-ready Terraform backend configuration:
-
-- Remote state stored in **Amazon S3**
-- State locking implemented using **DynamoDB**
-- Server-side encryption enabled
-- Centralized state for collaborative deployments
-
 
 ### 🔮 Possible Enhancements
 
 - Multi-AZ RDS deployment
-
 - Read replicas
-
 - HTTPS (ACM + TLS)
-
 - WAF integration
-
 - CI/CD pipeline (GitHub Actions)
-
 - Secrets Manager integration
 
 ### 🧠 Author
