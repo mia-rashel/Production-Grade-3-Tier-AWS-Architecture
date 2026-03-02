@@ -97,7 +97,7 @@ This ensures layered defense and minimized attack surface.
 
 ## 📂 Project Structure
 
-
+```
 📂 Project Structure
 multi-tier-aws/
 │
@@ -114,14 +114,15 @@ multi-tier-aws/
 ├── outputs.tf
 ├── terraform.tfvars.example
 └── README.md
-
+```
 ---
 
 ## 🚀 Deployment Instructions
 
 ### 1️⃣ Clone Repository
-git clone https://github.com/yourusername/multi-tier-aws.git
-cd multi-tier-aws
+git clone https://github.com/mia-rashel/Production-Grade-3-Tier-AWS-Architecture
+
+cd Production-Grade-3-Tier-AWS-Architecture
 ### 2️⃣ Create Your Own Variables File
 
 Copy:
@@ -131,13 +132,20 @@ cp terraform.tfvars.example terraform.tfvars
 Update values:
 
 vpc_cidr    = "10.0.0.0/16"
+
 my_ip       = "YOUR_PUBLIC_IP/32"
+
 db_username = "admin"
+
 db_password = "StrongPassword123!"
+
 alert_email = "your-email@example.com"
+
 ### 3️⃣ Initialize Terraform
 terraform init
+
 terraform plan
+
 terraform apply
 ### 4️⃣ Access Application
 
@@ -147,57 +155,57 @@ terraform output alb_dns_name
 
 Paste the DNS name into your browser.
 
-📊 Monitoring & Scaling
+## 📊 Monitoring & Scaling
 
-Auto Scaling Policy:
+### Auto Scaling Policy:
 
-Target Tracking
+- Target Tracking
 
-50% Average CPU Utilization
+- 50% Average CPU Utilization
 
-Monitoring:
+### Monitoring:
 
-CloudWatch metrics
+- CloudWatch metrics
 
-RDS connection tracking
+- RDS connection tracking
 
-SNS email alerts
+- SNS email alerts
 
-🏆 Production-Grade Characteristics
+### 🏆 Production-Grade Characteristics
 
 This project demonstrates:
 
-Logical + network-level tier isolation
+- Logical + network-level tier isolation
 
-Infrastructure as Code (modular design)
+- Infrastructure as Code (modular design)
 
-No hardcoded credentials
+- No hardcoded credentials
 
-Secure subnet segmentation
+- Secure subnet segmentation
 
-Automated scaling
+- Automated scaling
 
-Observability integration
+- Observability integration
 
-Encrypted database storage
+- Encrypted database storage
 
-🔮 Possible Enhancements
+### 🔮 Possible Enhancements
 
-Multi-AZ RDS deployment
+- Multi-AZ RDS deployment
 
-Read replicas
+- Read replicas
 
-HTTPS (ACM + TLS)
+- HTTPS (ACM + TLS)
 
-WAF integration
+- WAF integration
 
-CI/CD pipeline (GitHub Actions)
+- CI/CD pipeline (GitHub Actions)
 
-Remote state (S3 + DynamoDB locking)
+- Remote state (S3 + DynamoDB locking)
 
-Secrets Manager integration
+- Secrets Manager integration
 
-🧠 Author
+### 🧠 Author
 
 Muhammad Rashel Mia
 Cloud & DevOps Engineer
