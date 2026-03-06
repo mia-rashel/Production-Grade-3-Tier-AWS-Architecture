@@ -26,10 +26,49 @@ It demonstrates:
 
 This architecture reflects real-world cloud engineering best practices.
 
+## 🧠 Architecture Principles
+
+This infrastructure was designed following core cloud architecture principles:
+
+- **High Availability**  
+  Resources are distributed across multiple Availability Zones to ensure service continuity during failures.
+
+- **Scalability**  
+  The application layer uses an Auto Scaling Group to automatically adjust capacity based on demand.
+
+- **Security by Design**  
+  Strict security group chaining ensures tier isolation:
+  - ALB → EC2
+  - EC2 → RDS
+
+- **Network Segmentation**  
+  Public, private application, and private database subnets are separated to reduce attack surface.
+
+- **Infrastructure as Code**  
+  Terraform modules enable reproducible, version-controlled infrastructure deployments.
+
+- **Observability**  
+  CloudWatch metrics and SNS alerts provide operational visibility.
+
+- **State Management**  
+  Terraform remote state stored in S3 with DynamoDB locking ensures safe collaborative infrastructure changes.
+## ☁️ AWS Services Used
+
+- Amazon VPC
+- Internet Gateway
+- NAT Gateway
+- Application Load Balancer (ALB)
+- EC2 Auto Scaling Group
+- Amazon RDS MySQL (Multi-AZ + Read Replica)
+- Amazon CloudWatch
+- Amazon SNS
+- Amazon S3 (Terraform State)
+- Amazon DynamoDB (State Locking)
 ---
 
 ## 🏗 Architecture Diagram
-
+![AWS 3-Tier Architecture](./architecture-diagram.gif)
+📍 This architecture was fully provisioned using Terraform and deployed in AWS ca-central-1 (Canada).
 ### Logical Flow
 
             ┌──────────────────────────┐
@@ -51,20 +90,28 @@ This architecture reflects real-world cloud engineering best practices.
                           ▼
             ┌──────────────────────────┐
             │  RDS MySQL(Multi-AZ      |
-            │     + Read Replica       |
+            │     + Read Replica)      |
             │   (Private DB Subnets)   │
             └──────────────────────────┘
 
 ---
+### Architecture Highlights
+- Multi-AZ deployment across two Availability Zones  
+- Public subnets host the Application Load Balancer and NAT Gateways  
+- Private application subnets run EC2 instances inside an Auto Scaling Group  
+- Private database subnets host Amazon RDS with Multi-AZ failover  
+- A Read Replica provides additional read scalability  
+- CloudWatch monitors infrastructure and triggers SNS alerts  
+- Terraform state is stored remotely in S3 with DynamoDB state locking
 
 ## 🧱 Network Architecture
 
 | Layer | Subnet Type | Internet Access | Purpose |
-|-------|------------|----------------|----------|
-| ALB   | Public     | Yes (via IGW)  | Handles incoming traffic |
-| EC2   | Private App| Outbound only (via NAT) | Application layer |
-| RDS   | Private DB | No internet access | Data layer |
-
+|------|-------------|----------------|--------|
+| ALB | Public Subnets | Direct via Internet Gateway | Handles incoming user traffic |
+| EC2 | Private App Subnets | Outbound via NAT Gateway | Runs application layer |
+| RDS | Private DB Subnets | No internet access | Secure database layer |
+| NAT Gateway | Public Subnets | Outbound internet access | Allows private instances to reach internet |
 ---
 ## Enterprise Database Architecture
 ### High Availability (Multi-AZ)
@@ -110,7 +157,7 @@ This ensures layered defense and minimized attack surface.
 - VPC with public, private app, and private DB subnets
 - Internet Gateway + NAT Gateway
 - Multi-AZ Application Load Balancer
-- Multi-AZ Auto Scaling Group
+- Auto Scaling Group spanning multiple Availability Zones
 - CPU Target Tracking (50%)
 - RDS MySQL (Multi-AZ enabled)
 - Dedicated Read Replica
@@ -157,8 +204,8 @@ This project uses a production-ready Terraform backend configuration:
 ## 🚀 Deployment Instructions
 
 ### 1️⃣ Clone Repository
+```bash
 git clone https://github.com/mia-rashel/Production-Grade-3-Tier-AWS-Architecture
-
 cd Production-Grade-3-Tier-AWS-Architecture
 ### 2️⃣ Create Your Own Variables File
 
@@ -179,10 +226,10 @@ db_password = "StrongPassword123!"
 alert_email = "your-email@example.com"
 
 ### 3️⃣ Initialize Terraform
+```markdown
+```bash
 terraform init
-
 terraform plan
-
 terraform apply
 ### 4️⃣ Access Application
 
@@ -191,6 +238,18 @@ After apply completes:
 terraform output alb_dns_name
 
 Paste the DNS name into your browser.
+
+## 💰 Cost Awareness
+
+This architecture uses small instance sizes for demonstration purposes:
+
+- EC2: `t2.micro`
+- RDS: `db.t3.micro`
+
+However, resources such as NAT Gateways and RDS Multi-AZ deployments incur costs.  
+For lab environments, resources should be destroyed after testing.
+```bash
+terraform destroy
 
 ## 📊 Monitoring & Scaling
 
@@ -220,14 +279,12 @@ This project demonstrates:
 
 ### 🔮 Possible Enhancements
 
-- Multi-AZ RDS deployment
-- Read replicas
 - HTTPS (ACM + TLS)
 - WAF integration
 - CI/CD pipeline (GitHub Actions)
 - Secrets Manager integration
-
+- Blue-Green or Canary deployments
+---
 ### 🧠 Author
-
 Muhammad Rashel Mia
 Cloud & DevOps Engineer
