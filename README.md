@@ -289,5 +289,5 @@ This project demonstrates:
 - Blue-Green or Canary deployments
 ---
 ## 🧠 Author
-Muhammad Rashel Mia
-Cloud & DevOps Engineer
+**Muhammad Rashel Mia**
+*Cloud & DevOps Engineer*
