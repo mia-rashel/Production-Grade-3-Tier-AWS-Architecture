@@ -227,11 +227,12 @@ db_password = "StrongPassword123!"
 alert_email = "your-email@example.com"
 
 ### 3️⃣ Initialize Terraform
-```markdown
+
 ```bash
 terraform init
 terraform plan
 terraform apply
+```
 ### 4️⃣ Access Application
 
 After apply completes:
@@ -251,6 +252,7 @@ However, resources such as NAT Gateways and RDS Multi-AZ deployments incur costs
 For lab environments, resources should be destroyed after testing.
 ```bash
 terraform destroy
+```
 
 ## 📊 Monitoring & Scaling
 
