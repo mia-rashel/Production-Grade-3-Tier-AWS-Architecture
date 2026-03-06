@@ -268,7 +268,7 @@ terraform destroy
 - RDS connection tracking
 - SNS email alerts
 
-### 🏆 Production-Grade Characteristics
+## 🏆 Production-Grade Characteristics
 
 This project demonstrates:
 
@@ -280,7 +280,7 @@ This project demonstrates:
 - Observability integration
 - Encrypted database storage
 
-### 🔮 Possible Enhancements
+## 🔮 Possible Enhancements
 
 - HTTPS (ACM + TLS)
 - WAF integration
@@ -288,6 +288,6 @@ This project demonstrates:
 - Secrets Manager integration
 - Blue-Green or Canary deployments
 ---
-### 🧠 Author
+## 🧠 Author
 Muhammad Rashel Mia
 Cloud & DevOps Engineer
