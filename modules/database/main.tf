@@ -32,6 +32,8 @@ resource "aws_db_instance" "replica" {
 
   publicly_accessible     = false
   storage_encrypted       = true
+    skip_final_snapshot     = true
+
 
   vpc_security_group_ids  = [var.db_sg]
 
