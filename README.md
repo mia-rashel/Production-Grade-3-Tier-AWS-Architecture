@@ -207,6 +207,7 @@ This project uses a production-ready Terraform backend configuration:
 ```bash
 git clone https://github.com/mia-rashel/Production-Grade-3-Tier-AWS-Architecture
 cd Production-Grade-3-Tier-AWS-Architecture
+```
 ### 2️⃣ Create Your Own Variables File
 
 Copy:
